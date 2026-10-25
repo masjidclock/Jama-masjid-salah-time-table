@@ -1,0 +1,29 @@
+#!/bin/sh
+# Gradle launcher. Uses gradle/wrapper/gradle-wrapper.jar if present;
+# otherwise downloads the Gradle version named in gradle-wrapper.properties.
+set -e
+APP_HOME=$(cd "$(dirname "$0")" && pwd -P)
+JAR="$APP_HOME/gradle/wrapper/gradle-wrapper.jar"
+if [ -n "$JAVA_HOME" ] && [ -x "$JAVA_HOME/bin/java" ]; then JAVACMD="$JAVA_HOME/bin/java"; else JAVACMD=java; fi
+
+if [ -f "$JAR" ]; then
+  exec "$JAVACMD" -Xmx64m -Xms64m "-Dorg.gradle.appname=gradlew" \
+    -classpath "$JAR" org.gradle.wrapper.GradleWrapperMain "$@"
+fi
+
+V=$(sed -n 's#.*gradle-\([0-9][0-9.]*\)-\(bin\|all\)\.zip.*#\1#p' "$APP_HOME/gradle/wrapper/gradle-wrapper.properties" | head -n 1)
+[ -n "$V" ] || V=8.7
+DIST="${GRADLE_USER_HOME:-$HOME/.gradle}/bootstrap/gradle-$V"
+if [ ! -x "$DIST/bin/gradle" ]; then
+  echo "gradle-wrapper.jar not found; downloading Gradle $V ..." >&2
+  TMP=$(mktemp -d)
+  URL="https://services.gradle.org/distributions/gradle-$V-bin.zip"
+  if command -v curl >/dev/null 2>&1; then curl -fsSL -o "$TMP/g.zip" "$URL"; else wget -q -O "$TMP/g.zip" "$URL"; fi
+  if command -v unzip >/dev/null 2>&1; then unzip -q "$TMP/g.zip" -d "$TMP"; else python3 -c "import zipfile,sys;zipfile.ZipFile(sys.argv[1]).extractall(sys.argv[2])" "$TMP/g.zip" "$TMP"; fi
+  mkdir -p "$(dirname "$DIST")"
+  rm -rf "$DIST"
+  mv "$TMP/gradle-$V" "$DIST"
+  chmod +x "$DIST/bin/gradle"
+  rm -rf "$TMP"
+fi
+exec "$DIST/bin/gradle" "$@"

@@ -1,0 +1,6 @@
+{
+  "name": "MasjidTV Android TV Companion & Code Review",
+  "description": "Interactive Android TV emulator, code review, and config editor for Masjid TV Kotlin app.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

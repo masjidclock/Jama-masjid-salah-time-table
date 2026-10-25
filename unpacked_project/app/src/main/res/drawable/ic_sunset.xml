@@ -1,0 +1,19 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp" android:height="24dp" android:viewportWidth="24" android:viewportHeight="24">
+    <!-- Horizon -->
+    <path
+        android:strokeColor="#FF7A30" android:strokeWidth="2.2" android:strokeLineCap="round"
+        android:pathData="M2.5,19 L21.5,19"/>
+    <!-- Setting Sun Disk -->
+    <path
+        android:fillColor="#FF7A30" android:strokeColor="#FF7A30" android:strokeWidth="1"
+        android:pathData="M6.5,19 A5.5,5.5 0 0,1 17.5,19 Z"/>
+    <!-- Sunbeams -->
+    <path
+        android:strokeColor="#FF9B5E" android:strokeWidth="1.8" android:strokeLineCap="round"
+        android:pathData="M4,14 L6,15 M20,14 L18,15 M5,9 L7,10.8 M19,9 L17,10.8"/>
+    <!-- Downward Arrow -->
+    <path
+        android:strokeColor="#FFD1B3" android:strokeWidth="2.4" android:strokeLineCap="round" android:strokeLineJoin="round"
+        android:pathData="M12,3 L12,11.5 M8.8,8.3 L12,11.5 L15.2,8.3"/>
+</vector>
